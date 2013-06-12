@@ -2,6 +2,104 @@
 	Put anything you reference with "url()" in ../assets/
 	This way, you can minify your application, and just remove the "source" folder for production
 */
+
+.dark-scene  {
+	background: url(../assets/bg.png);
+	color: #FFF;
+}
+
+
 .nice-padding {
 	padding: 15px;
+}
+
+/* Tube line colours */
+.bakerloo					{color: #FFF;  		background: #AE6118;}
+.central					{color: #FFF;  		background: #E41F1F;}
+.circle						{color: #113B92;  	background: #F8D42D;}
+.district					{color: #FFF; 		background: #00A575;}
+.hammersmithandcity			{color: #113B92;  	background: #E899A8;}
+.hammersmithcity			{color: #113B92;  	background: #E899A8;}
+.hammersmith				{color: #113B92;  	background: #E899A8;}
+.jubilee					{color: #FFF;  		background: #8F989E;}
+.metropolitan				{color: #FFF;  		background: #893267;}
+.northern					{color: #FFF;  		background: #000000;}
+.piccadilly					{color: #FFF;  		background: #0450A1;}
+.victoria					{color: #FFF;  		background: #009FE0;}
+.waterlooandcity			{color: #113B92;  	background: #70C3CE;}
+.waterloocity				{color: #113B92;  	background: #70C3CE;}
+.dlr						{color: #FFF;  		background: #00BBB4;}
+.docklands					{color: #FFF;  		background: #00BBB4;} 
+.overground					{color: #FFF;  		background: #F86C00;}
+
+.statusLine					{width: 125px;}
+.messageRow					{font-size: 12px; font-weight: normal; margin: 5px;}
+.lineRow					{font-size: 14px; font-weight: normal; height: 40px; line-height: 40px;}
+
+.problem { background:#113B92; color:#fff; text-transform: capitalize;}
+.minor { color:#113B92; text-transform: capitalize;}
+.good { text-transform: capitalize;}
+
+.helpText {
+	padding: 5px;
+	font-size: 14px;
+
+}
+
+.busySpinner {
+	position:fixed;
+	top: 50%;
+  	left: 50%;
+  	margin-top: -30px;
+  	margin-left: -30px;
+}
+
+.favouriteRow {
+	border: 1px solid silver;
+	padding: 12px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.stationRow {
+	background-color: gray;
+	border: 1px solid silver;
+	padding: 12px;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.platformDivider {
+	background-color: #226B9A;
+	font-size: 16px;
+	font-weight: normal;
+	padding: 8px 14px;
+}
+
+.departure {
+	padding: 5px;
+	color: #F17B23;
+	font-size: 16px;
+}
+
+.errorDialogTitle {
+	font-weight: bolder;
+}
+
+.errorDialogDescription {
+	font-weight: normal;
+}
+
+.errorDialogBtn {
+	float: right;
+	margin-top: 25px;
+}
+
+.popup {
+	width: 300px;
+}
+
+.popup > * {
+	display: block;
+	margin: 10px 10px;
 }

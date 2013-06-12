@@ -1,0 +1,11 @@
+{
+	"id": "com.mobileteck.thetube",
+	"version": "1.0.2",
+	"vendor": "mobileteck.com",
+	"type": "web",
+	"main": "index.html",
+	"title": "London Tube Status",
+	"icon": "assets/train-icon.png",
+	"uiRevision": "2",
+	"keywords": "Tube, TFL"
+}
