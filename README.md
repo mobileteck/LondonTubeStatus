@@ -1,6 +1,5 @@
-bootplate
-=========
+LondonTubeStatus
+================
 
-Application template for packaged Enyo
+LondonTubeStatus WebOS App
 
-Refer to the [Wiki](https://github.com/enyojs/enyo/wiki/Bootplate) for how to get started.
