@@ -14,7 +14,7 @@ enyo.kind({
 			classes: "panels enyo-border-box",
 			components: [
 				{kind: "favouriteView", onError: "showError", onStationSelected: "loadDepartures"},
-				{kind: "statusView", onError: "showError"},
+				{kind: "statusView", onError: "showError", onShowNotice: "showBanner"},
 				{kind: "lineView", onError: "showError", onLineSelected: "loadStations"},
 				{kind: "aboutView", onError: "showError"},
 				{kind: "stationView", onError: "showError", onStationSelected: "loadDepartures"},
@@ -72,6 +72,7 @@ enyo.kind({
         this.$.favouriteView.setDatabase(this.$.database);
         this.$.depatureView.setDatabase(this.$.database);
         this.$.lineView.setDatabase(this.$.database);
+        this.$.aboutView.setDatabase(this.$.database);
 		
 		this.history = new Array();
 		this.favourite();
@@ -83,15 +84,10 @@ enyo.kind({
 
     },
 
-	showBanner: function(viewIndex) {
-    	if(enyo.platform.webos && viewIndex) {
-    		var tip = this.tips[viewIndex];
-    		if(tip) {
-    			navigator.notification.showBanner(tip);
-    			this.tips[viewIndex] = null; // clear the tip
-	   		}
+	showBanner: function(inSender, banner) {
+    	if(enyo.platform.webos && banner) {
+   			navigator.notification.showBanner(banner.message);
     	}
-
     },
 
     changeView: function(viewIndex) {

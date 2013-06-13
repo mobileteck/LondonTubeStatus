@@ -15,7 +15,8 @@ enyo.kind({
 		]},
 		{kind: "Scroller", name: "scroller",  classes: "enyo-scroller", thumb: false, fit: true, touch: true, horizontal: "hidden", components: [
 			{tag: "br"},
-			{kind: "onyx.Groupbox", style: "padding: 5px;", components: [
+			{name: "message", style: "padding: 5px; font-size: 18px;", content: "No favorite Stations found. Add your favourite Stations for quick access to departure boards."},
+			{name: "myStations", kind: "onyx.Groupbox", style: "padding: 5px;", components: [
 			{kind: "onyx.GroupboxHeader", content: "My Stations"},
 				{kind: "Repeater", classes: "enyo-list",count: 0, name: "list", onSetupItem: "getItem", components: [
 					{ name: "stationRow", classes: "enyo-border-box stationRow",  ontap: "selectItem", components:[
@@ -34,7 +35,16 @@ enyo.kind({
 
     refresh: function(inSender, inEvent) {
 		this.myStationList = this.database.findFavouriteStations();
-    	this.$.list.setCount(this.myStationList.length);
+		var len = this.myStationList.length;
+		this.$.list.setCount(len);
+		if(len === 0) {
+			this.$.message.setShowing(true);
+			this.$.myStations.setShowing(false)
+		} else{
+			this.$.message.setShowing(false);
+			this.$.myStations.setShowing(true);
+		}
+    	
     },
 
     selectItem: function(inSender, inEvent) {

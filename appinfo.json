@@ -5,7 +5,7 @@
 	"type": "web",
 	"main": "index.html",
 	"title": "London Tube Status",
-	"icon": "assets/train-icon.png",
+	"icon": "icon.png",
 	"uiRevision": "2",
 	"keywords": "Tube, TFL"
 }

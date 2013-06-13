@@ -4,7 +4,7 @@ enyo.kind({
 	fit: true,
 	classes: "enyo-fit",
 	events: {
-  		onFeaturedDealSelect: "",
+  		onShowNotice: "",
   		onError: ""
 	},
 	components: [
@@ -109,6 +109,7 @@ enyo.kind({
    			//this.$.list.completePull();	
    			//this.$.list.build();
     		this.dataNotLoaded = false;
+    		this.doShowNotice({ message: "Tube Status loaded"});
     	} else {
     		this.doError({title: 'Service Error', message: 'Looks like we are having some trouble loading Tube Status. Please try again shortly.'});
     	}

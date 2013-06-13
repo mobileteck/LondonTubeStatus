@@ -3,6 +3,9 @@ enyo.kind({
 	kind: "FittableRows",
 	classes: "aboutView enyo-fit",
 	fit: true,
+	published: {
+		database: ""
+	},
 	components: [
 		{kind: "onyx.Toolbar",  layoutKind: "FittableColumnsLayout", style: "height: 50px;", components: [
 			{name: "viewHeader",  style: "font-weight: bold;", content: "About"},
@@ -34,9 +37,23 @@ enyo.kind({
 			]},
 			{tag: "br"},
 			{kind: "onyx.Groupbox", classes: "inputGroup", components: [
-				{kind: "onyx.GroupboxHeader", content: "Important Notices"},
+				{kind: "onyx.GroupboxHeader", content: "Donate"},
 				{allowHtml: true, classes: "helpText", content: "Tube Status Feeds are provided by <a href='http://tubeupdates.com', target='external'>TubeUpdates.com<a/>. If you find this app useful, please consider <a href='http://tubeupdates.com/donate' target='external'>donating</a> to TubeUpdates.com, so they can keep the service running."}
 			]},
+			{tag: "br"},
+			{kind: "onyx.Groupbox", classes: "inputGroup", components: [
+				{kind: "onyx.GroupboxHeader", content: "Notice"},
+				{allowHtml: true, classes: "helpText", content: "This app is not in anyway affiliated, endorsed, approved or supported by London Underground Ltd. This is an unofficial App."}
+			]},
+			{tag: "br"},
+			{kind: "onyx.Groupbox", classes: "inputGroup", components: [
+				{kind: "onyx.GroupboxHeader", content: "Reset"},
+				{ layoutKind: "FittableRowsLayout", classes: "helpText", components: [
+					{content: "If you want to reset Station Database please click on the link below. This will wipe out all the favourite stations."},
+					{content: "Reset Database", ontap: "doReset", style: "color: #0000FF; text-decoration:underline;"}
+				]}
+			]},
+			{tag: "br"},
 			{name: "version", allowHtml: true, style: "font-size: 14px; font-weight: normal; margin: 5px"},
 			{name: "copyright", allowHtml: true, style: "font-size: 14px; font-weight: normal; margin: 5px"},
 		]}
@@ -71,6 +88,11 @@ enyo.kind({
 
 	doDonate: function() {
    		window.open('http://tubeupdates.com/donate','external');	
+    },
+
+    doReset: function(){
+    	this.log("Reset DB");
+    	this.database.reset();
     }
     
 

@@ -17,10 +17,14 @@ enyo.kind({
             this.myStations = JSON.parse(myStationsString); 
         } else{
             this.log("Initial Loading of Station DB");
-            this.myStations = this.stationData;
-            localStorage.setItem("myStations", JSON.stringify(this.myStations));    
+            this.reset();
         }
 
+    },
+
+    reset: function(){
+        this.myStations = this.stationData;
+        localStorage.setItem("myStations", JSON.stringify(this.myStations));    
     },
 
     findFavouriteStations: function() {
