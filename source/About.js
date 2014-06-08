@@ -37,13 +37,8 @@ enyo.kind({
 			]},
 			{tag: "br"},
 			{kind: "onyx.Groupbox", classes: "inputGroup", components: [
-				{kind: "onyx.GroupboxHeader", content: "Donate"},
-				{allowHtml: true, classes: "helpText", content: "Tube Status Feeds are provided by <a href='http://tubeupdates.com', target='external'>TubeUpdates.com<a/>. If you find this app useful, please consider <a href='http://tubeupdates.com/donate' target='external'>donating</a> to TubeUpdates.com, so they can keep the service running."}
-			]},
-			{tag: "br"},
-			{kind: "onyx.Groupbox", classes: "inputGroup", components: [
 				{kind: "onyx.GroupboxHeader", content: "Notice"},
-				{allowHtml: true, classes: "helpText", content: "This app is not in anyway affiliated, endorsed, approved or supported by London Underground Ltd. This is an unofficial App."}
+				{allowHtml: true, classes: "helpText", content: "This app is not in anyway affiliated, endorsed, approved or supported by London Underground Ltd. This is an unofficial App. This app uses TFL public data feeds."}
 			]},
 			{tag: "br"},
 			{kind: "onyx.Groupbox", classes: "inputGroup", components: [
@@ -61,7 +56,7 @@ enyo.kind({
 
  	create: function(){
         this.inherited(arguments);
-        this.$.version.setContent("London Tube Status v1.0.2");
+        this.$.version.setContent("London Tube Status v1.1.0");
 		this.$.copyright.setContent("&copy; Copyright " + new Date().getFullYear() + " Mobileteck.com");
     },
 

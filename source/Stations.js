@@ -73,7 +73,7 @@ enyo.kind({
 		if(r){
 			// make a copy of the object to prevent enyo instances been inserted to the database copy
 			// when its sent using event propagation which then create a circular reference
-			this.doStationSelected({"sc": r.sc, "lc": r.lc, "sn": r.sn, "my": r.my, "li": r.li, "lc": this.line.lc});
+			this.doStationSelected({"sc": r.sc, "lc": r.lc, "sn": r.sn, "my": r.my, "li": r.li, "lc": this.line.slc});
 		}
 	},
 

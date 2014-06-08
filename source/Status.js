@@ -7,6 +7,9 @@ enyo.kind({
   		onShowNotice: "",
   		onError: ""
 	},
+	published: {
+		database: ""
+	},
 	components: [
 		{kind: "onyx.Toolbar",  layoutKind: "FittableColumnsLayout", style: "height: 50px;", components: [
 			{name: "viewHeader",  style: "font-weight: bold;", content: "Tube Status"},
@@ -86,13 +89,13 @@ enyo.kind({
 	},
 
 	doStatus: function(){
-		var url = "http://api.tubeupdates.com/?method=get.status&lines=all&format=json&return=name,id,status,messages";
+		var url = "http://cloud.tfl.gov.uk/TrackerNet/LineStatus";
 		if(mockData){
-			url = "http://127.0.0.1:9009/res/services/home/file/LondonTubeStatus/mock/status.json";
+			url = "http://localhost:8080/mock/LineStatus.xml";
 		}
 		
 		if(this.$.nativeUtils.checkInternetConnection()){
-			new enyo.Ajax({url: url}).go().response(this, "gotResults").error(this, "gotFailure");	
+			new enyo.Ajax({url: url, handleAs: "text"}).go().response(this, "gotResults").error(this, "gotFailure");	
 		} else {
 			this.$.spinner.hide();
 		}
@@ -102,7 +105,7 @@ enyo.kind({
 	gotResults: function(inSender, inResponse) {
 		this.$.spinner.hide();
     	//this.log("gotResults");
-    	this.statusList = this.parseResults(inResponse.response);
+    	this.statusList = this.parseResults(inResponse);
     	//this.log(this.featuredList);
     	if(this.statusList){
     		this.$.list.setCount(this.statusList.length);
@@ -116,50 +119,36 @@ enyo.kind({
     	
     },
 
-    parseResults: function(r){
+    parseResults: function(inResponse){
+    	parser = new DOMParser();
+  		xml = parser.parseFromString(inResponse,"text/xml");
+  		var ls = xml.getElementsByTagName("LineStatus");
+    	
 		lines = [];
-		var map = {};
-        for (i = 0; i < r.lines.length; i++) {
-            var a = r.lines[i];
+		for (i = 0; i < ls.length; i++) {
+            var a = ls[i];
             l = {};
-            l.n = a.name;
-            l.c = a.id;
-            l.s = this.getStatus(a.status, a.messages);
-            l.t = this.getCategory(a.status);
-            l.m = a.messages.join('<hr>');
-
-            // instead of checking status_starts, rely on the fact that results are in chronological order and by putting it to map and getting it back
-            // will make sure only the latest entry is retained, thus eliminating the older entry saving the effort of parsing dates.
-            // Sun, 28 Apr 2013 12:27:01 +0100
-            //var statusStart = a.status_starts;
-            //this.log(statusStart);
-            //if(statusStart && statusStart.length > 16){
-            //	var input = statusStart.substring(5,16);
-            //	var parts = input.match(/(\S+)/g);
-            //	var d = parts[0];
-            //	var m = parts[1];
-            //	var y = parts[2];
-			//
-            //}
-            map[l.c] = l;
+            //this.log(a.childNodes);
+            //this.log(a.getElementsByTagName("Line"));
+            var lineNode =  a.getElementsByTagName("Line")[0];
+            var statusNode = a.getElementsByTagName("Status")[0];
+            l.n = lineNode.getAttribute("Name");
+            l.c = this.database.findLineCodeByID(lineNode.getAttribute("ID"));
+            l.s = statusNode.getAttribute("Description");
+            l.t = this.getCategory(a.getElementsByTagName("Status")[0].getAttribute("ID"));
+            l.m = a.getAttribute("StatusDetails");
+        	lines.push(l);
         }
 
-		//this.log(map);
-
-        for (var line in map) {
-        	//this.log(line);
-        	lines.push(map[line]);
-        }
-        
         //this.log(lines);
         return lines;
     },
 
     getCategory: function(s){
-        if (s.indexOf("good") != -1) {
+        if (s.indexOf("GS") != -1) {
             return "good";
         }
-        if (s.indexOf("minor") != -1) {
+        if (s.indexOf("MD") != -1) {
             return "minor";
         }
         

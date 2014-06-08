@@ -10,7 +10,7 @@ enyo.kind({
     
     create: function() {
         this.inherited(arguments);
-        this.log("create");
+        //this.log("create");
         var myStationsString = localStorage.getItem("myStations");
 
         if(myStationsString) {
@@ -36,6 +36,7 @@ enyo.kind({
                 var line = this.findLineByID(station.li); 
                 var stationCopy = JSON.parse(JSON.stringify(station));
                 stationCopy.lc = line.lc;
+                stationCopy.slc = line.slc;
                 myStationList.push(stationCopy);
             }
         }
@@ -87,48 +88,95 @@ enyo.kind({
         return null;
     },
 
+
+    findLineCodeByID: function(lineID) {
+
+        switch(lineID){
+            case "1": 
+                return "bakerloo";
+            case "2":
+                return "central";
+            case "3":
+                return "victoria";    
+            case "4":
+                return "jubilee";    
+            case "5":
+                return "northern";       
+            case "6":
+                return "piccadilly";                      
+            case "7":
+                return "circle";    
+            case "8":
+                return "hammersmith";        
+            case "9":
+                return "district";    
+            case "11":
+                return "metropolitan";        
+            case "12":
+                return "waterlooandcity";
+            case "82":
+                return "overground";         
+            case "81":
+                return "dlr";
+            default:
+                return "";    
+        }
+
+    },
+
     lineData : [{
         "li" : "0",
+        "slc": "B",
         "lc" : "bakerloo",
         "ln" : "Bakerloo"
     }, {
         "li" : "1",
+        "slc": "C",
         "lc" : "central",
         "ln" : "Central"
     }, {
         "li" : "2",
+        "slc": "H",
         "lc" : "circle",
         "ln" : "Circle"
     }, {
         "li" : "3",
+        "slc": "D",
         "lc" : "district",
         "ln" : "District"
     }, {
         "li" : "4",
+        "slc": "H",
         "lc" : "hammersmith",
         "ln" : "H'Smith & City"
     }, {
         "li" : "5",
+        "slc": "J",
         "lc" : "jubilee",
         "ln" : "Jubilee"
     }, {
         "li" : "6",
+        "slc": "M",
         "lc" : "metropolitan",
         "ln" : "Metropolitan"
     }, {
         "li" : "7",
+        "slc": "N",
         "lc" : "northern",
         "ln" : "Northern"
     }, {
         "li" : "8",
+        "slc": "P",
         "lc" : "piccadilly",
         "ln" : "Piccadilly"
     }, {
         "li" : "9",
+        "slc": "V",
         "lc" : "victoria",
         "ln" : "Victoria"
     }, {
         "li" : "10",
+        "slc": "W",
         "lc" : "waterlooandcity",
         "ln" : "W'loo & City"
     }],

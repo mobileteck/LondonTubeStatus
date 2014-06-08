@@ -54,7 +54,7 @@ enyo.kind({
 			//var line = this.database.findLineByID(r.li); // append line code to station
 			// make a copy of the object to prevent enyo instances been inserted to the database copy
 			// when its sent using event propagation which then create a circular reference
-			this.doStationSelected({"sc": r.sc, "lc": r.lc, "sn": r.sn, "my": r.my, "li": r.li, "lc": r.lc});
+			this.doStationSelected({"sc": r.sc, "lc": r.lc, "sn": r.sn, "my": r.my, "li": r.li, "lc": r.slc});
 		}
 	},
 

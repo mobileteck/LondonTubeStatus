@@ -52,7 +52,7 @@ enyo.kind({
 
 	handleWebOSLaunch: function() {
 		// If it was launched by Just-Type kick of a search
-        if(enyo.platform.webos) {
+        if(enyo.platform.webos || window.PalmSystem) {
         	var launchParams = enyo.webos.launchParams();
         	this.log("LauncherParams=" + JSON.stringify(launchParams));	
         	if(launchParams && launchParams.productSearch){
@@ -68,6 +68,7 @@ enyo.kind({
         this.$.left.applyStyle("padding-right", padding + "px");
         this.$.right.applyStyle("padding-left", padding + "px");
 
+        this.$.statusView.setDatabase(this.$.database);
         this.$.stationView.setDatabase(this.$.database);
         this.$.favouriteView.setDatabase(this.$.database);
         this.$.depatureView.setDatabase(this.$.database);
@@ -85,7 +86,7 @@ enyo.kind({
     },
 
 	showBanner: function(inSender, banner) {
-    	if(enyo.platform.webos && banner) {
+    	if((enyo.platform.webos || window.PalmSystem) && banner) {
    			navigator.notification.showBanner(banner.message);
     	}
     },
@@ -124,7 +125,7 @@ enyo.kind({
 
     backHandler: function() {
 		this.log("backHandler");
-		this.log(this.history);
+		//this.log(this.history);
 
 		//this.log(this.$.pane.getPanels());
 

@@ -62,11 +62,11 @@ enyo.kind({
 
     getDepartures: function(){
     	this.$.spinner.show();
-    	var query = "line=" + this.station.lc + "&mode=tube&station=" + this.station.sc;
-    	// line=bakerloo&mode=tube&station=CHX
-		var url = "http://www.tfl.gov.uk/tfl/livetravelnews/departure-boards/departureboards.aspx?" + query;
+    	this.log("Getting Departures on Line: " + this.station.lc + " for Station: " + this.station.sc)
+
+		var url = "http://cloud.tfl.gov.uk/TrackerNet/PredictionDetailed/" + this.station.lc + "/" + this.station.sc;
 		if(mockData) {
-			url = "http://127.0.0.1:9009/res/services/home/file/LondonTubeStatus/mock/departureboards.html?" + query;
+			url = "http://localhost:8080/mock/BST.xml?";
 		}
 		
 		if(this.$.nativeUtils.checkInternetConnection()){
@@ -80,9 +80,9 @@ enyo.kind({
 	gotResults: function(inSender, inResponse) {
 		this.$.spinner.hide();
     	//this.log("gotResults");
-    	var myDiv = window.document.createElement("div");
-		myDiv.innerHTML = inResponse;
-    	this.departureList = this.parseResults(myDiv);
+    	//this.log(inResponse);
+    	
+    	this.departureList = this.parseResults(inResponse);
 
     	//this.log(this.featuredList);
     	if(this.departureList){
@@ -94,47 +94,32 @@ enyo.kind({
     	
     },
 
-    parseResults: function(xml){
-
-		var x = xml.querySelectorAll("table.board");
+    parseResults: function(inResponse){
+    	parser = new DOMParser();
+  		xmlDoc = parser.parseFromString(inResponse,"text/xml");
+		var x = xmlDoc.getElementsByTagName("P");
 		var departures = [];
 		if(x.length > 0) {
 
 			for(var i = 0; i < x.length; i++) {
 				var a = x[i];
-				var z = null;
 				var p = null;
 
-				// direction
-				var zNodes = a.querySelectorAll("caption > span:nth-child(1)");
-				if(zNodes.length > 0) {
-					z = this.cleanString(zNodes[0].innerText);	
-				}
-
 				// platform
-				var pNodes = a.querySelectorAll("caption > span:nth-child(2)");
-				if(pNodes.length > 0) {
-					p = this.cleanString(pNodes[0].innerText);	
-				}
-
-				var d = a.querySelectorAll("tr > td.destination");
-				//var m = a.select("tr > td.message");
-				var t = a.querySelectorAll("tr > td.time");
+				p = this.cleanString(a.getAttribute("N"));	
+				
+				var d = a.getElementsByTagName("T");
 				
 				for(var j = 0; j < d.length; j++) {
 
 					var dest = "";
-					if(d[j]) {
-						dest = this.cleanString(d[j].innerText);
-					}
-
 					var time = "";
-					if(t[j]) {
-						time = this.cleanString(t[j].innerText);
+					if(d[j]) {
+						dest = this.cleanString(d[j].getAttribute("Destination"));
+						time = this.cleanString(d[j].getAttribute("TimeTo"));
 					}
 
 					departures.push({
-						z : z,
 						p : p,
 						d : dest,
 						t : time
@@ -155,11 +140,11 @@ enyo.kind({
     gotFailure: function(inSender, inResponse) {
     	this.$.spinner.hide();
 		this.log("gotFailure");
-		//this.log(inResponse);
+		this.log(inResponse);
 		if(inResponse === 0 || inResponse === ""){
 			this.doError({ title: 'Service Error', message: 'Unable to load data. Please ensure you have an internet connection and try again.'});
 		} else{
-			this.doError({ title: 'Service Error', message: 'Looks like we are having some trouble loading data. Please try again shortly.'});				
+			this.doError({ title: 'Service Error', message: 'Looks like we are having some trouble loading data. Please try again shortly.' + inResponse});				
 		}
 	},
 
@@ -174,7 +159,7 @@ enyo.kind({
     	var item = inEvent.item;
     	var r = this.departureList[index];
     	if(r){
-    		item.$.platform.setContent(r.z + " " + r.p);	
+    		item.$.platform.setContent(r.p);	
     		item.$.platform.setShowing(this.getDivider(inEvent.index, r));
     		item.$.destination.setContent(r.d);	
     		item.$.time.setContent(r.t);	
